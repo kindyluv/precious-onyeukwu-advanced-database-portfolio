@@ -1,0 +1,59 @@
+erDiagram
+ BUSINESS ||--o{ WALLET : owns
+ CURRENCY ||--o{ WALLET : denominates
+ BUSINESS ||--o{ PAYOUT : submits
+ WALLET ||--o{ PAYOUT : funds
+ COUNTRY ||--o{ PAYOUT : destination
+ CURRENCY ||--o{ PAYOUT : payout_currency
+ PAYOUT ||--|| PAYOUT_PARTIES : snapshots
+ PAYOUT ||--o{ PROCESSOR_ATTEMPT : attempts
+ TRANSFER_PROCESSOR ||--o{ PROCESSOR_ATTEMPT : executes
+ PAYOUT ||--o{ PAYOUT_STATUS_HISTORY : changes
+ PAYOUT ||--o{ OUTBOX_EVENT : dispatches
+ WALLET ||--o{ WALLET_FUNDING : receives
+ BUSINESS ||--o{ CUSTOM_FEE_CONFIG : overrides
+ CURRENCY ||--o{ CUSTOM_FEE_CONFIG : fee_currency
+ CURRENCY ||--o{ FEE_CONFIG : default_fee
+ BUSINESS ||--o{ ROUTING_RULE : overrides
+ TRANSFER_PROCESSOR ||--o{ ROUTING_RULE : routes
+ COUNTRY ||--o{ TRANSFER_PROCESSOR : supports
+ CURRENCY ||--o{ TRANSFER_PROCESSOR : supports
+ PAYOUT ||--o{ LEDGER_JOURNAL : records
+ LEDGER_JOURNAL ||--|{ LEDGER_ENTRY : contains
+ LEDGER_ACCOUNT ||--o{ LEDGER_ENTRY : posted_to
+ BUSINESS ||--o{ AUDIT_LOG : subject
+ BUSINESS ||--o{ WHITELISTED_IP_ADDRESS : allows
+ BUSINESS ||--o| BUSINESS_PROFILE : credentials
+ BUSINESS ||--o{ BUSINESS_BLACKLIST : blocked
+ COUNTRY ||--o{ BANK : contains
+ CURRENCY ||--o{ BANK : denominates
+ COUNTRY ||--o{ BLOCKED_ACCOUNT : bans
+ CURRENCY ||--o{ BLOCKED_ACCOUNT : bans
+ BUSINESS ||--o{ CUSTOM_TRANSFER_PROCESSOR : allows
+ TRANSFER_PROCESSOR ||--o{ CUSTOM_TRANSFER_PROCESSOR : selected
+ PAYOUT ||--o{ PROCESSOR_WEBHOOK : callback
+ BUSINESS { uuid id PK string name string status }
+ CURRENCY { uuid id PK string code UK }
+ COUNTRY { uuid id PK string iso_code UK }
+ WALLET { uuid id PK uuid business_id FK uuid currency_id FK decimal balance }
+ PAYOUT { uuid id PK uuid business_id FK uuid wallet_id FK decimal amount decimal fee_amount decimal total_debit string status string merchant_reference }
+ PAYOUT_PARTIES { uuid payout_id PK string sender_name string beneficiary_name string beneficiary_account_masked }
+ TRANSFER_PROCESSOR { uuid id PK string code string status }
+ PROCESSOR_ATTEMPT { uuid id PK uuid payout_id FK uuid processor_id FK string status }
+ OUTBOX_EVENT { uuid id PK uuid payout_id FK string event_type }
+ LEDGER_ACCOUNT { uuid id PK string account_type uuid currency_id FK }
+ LEDGER_JOURNAL { uuid id PK uuid payout_id FK string journal_type }
+ LEDGER_ENTRY { uuid id PK uuid journal_id FK uuid account_id FK decimal debit decimal credit }
+ PAYOUT_STATUS_HISTORY { uuid id PK uuid payout_id FK string status }
+ PROCESSOR_WEBHOOK { uuid id PK uuid payout_id FK string provider_event_id }
+ WALLET_FUNDING { uuid id PK uuid wallet_id FK decimal amount }
+ FEE_CONFIG { uuid id PK uuid currency_id FK }
+ CUSTOM_FEE_CONFIG { uuid id PK uuid business_id FK }
+ ROUTING_RULE { uuid id PK uuid business_id FK }
+ BANK { uuid id PK uuid country_id FK }
+ AUDIT_LOG { uuid id PK uuid business_id FK }
+ BUSINESS_PROFILE { uuid id PK uuid business_id FK }
+ WHITELISTED_IP_ADDRESS { uuid id PK uuid business_id FK }
+ BUSINESS_BLACKLIST { uuid id PK uuid business_id FK }
+ BLOCKED_ACCOUNT { uuid id PK uuid currency_id FK }
+ CUSTOM_TRANSFER_PROCESSOR { uuid id PK uuid business_id FK }

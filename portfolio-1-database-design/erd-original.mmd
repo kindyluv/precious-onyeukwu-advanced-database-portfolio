@@ -1,0 +1,157 @@
+erDiagram
+    BUSINESS ||--o{ TRANSACTION_RECORD : business_fk
+    CURRENCY ||--o{ TRANSACTION_RECORD : currency_fk
+    COUNTRY ||--o{ TRANSACTION_RECORD : country_fk
+    SENDER ||--o{ TRANSACTION_RECORD : sender_fk
+    BENEFICIARY ||--o{ TRANSACTION_RECORD : beneficiary_fk
+    VOUCHER ||--o{ TRANSACTION_RECORD : voucher_fk
+    BUSINESS ||--o{ WALLET : business_fk
+    CURRENCY ||--o{ WALLET : currency_fk
+    COUNTRY ||--o{ WALLET : country_fk
+    BUSINESS ||--o{ WALLET_FUNDING : business_fk
+    CURRENCY ||--o{ WALLET_FUNDING : currency_fk
+    WALLET ||--o{ WALLET_FUNDING : wallet_fk
+    BUSINESS ||--o{ BUSINESS_PROFILE : business_fk
+    BUSINESS ||--o{ WHITELISTED_IP_ADDRESS : business_fk
+    BUSINESS ||--o{ CUSTOM_FEE_CONFIG : business_fk
+    CURRENCY ||--o{ CUSTOM_FEE_CONFIG : currency_fk
+    CURRENCY ||--o{ FEE_CONFIG : currency_id
+    BUSINESS ||--o{ ROUTING_RULE : business_fk
+    CURRENCY ||--o{ ROUTING_RULE : currency_fk
+    CURRENCY ||--o{ RISK_ROUTER : currency_fk
+    COUNTRY ||--o{ RISK_ROUTER : country_fk
+    CURRENCY ||--o{ TRANSFER_PROCESSOR : currency_fk
+    COUNTRY ||--o{ TRANSFER_PROCESSOR : country_fk
+    COUNTRY ||--o{ BANK : country_fk
+    CURRENCY ||--o{ BANK : currency_fk
+    BUSINESS ||--o{ AUDIT_LOG : business_fk
+    CURRENCY ||--o{ BLOCKED_ACCOUNT : currency_fk
+    COUNTRY ||--o{ BLOCKED_ACCOUNT : country_fk
+    BUSINESS ||--o{ BUSINESS_BLACKLIST : business_fk
+    CURRENCY ||--o{ BUSINESS_BLACKLIST : currency_fk
+    BUSINESS ||--o{ CUSTOM_TRANSFER_PROCESSOR : business_fk
+    TRANSFER_PROCESSOR ||--o{ CUSTOM_TRANSFER_PROCESSOR : processor_fk
+    CURRENCY ||--o{ CUSTOM_TRANSFER_PROCESSOR : currency_fk
+    COUNTRY ||--o{ CUSTOM_TRANSFER_PROCESSOR : country_fk
+    BUSINESS {
+        int8 id PK
+        string name
+        string status
+    }
+    CURRENCY {
+        int8 id PK
+        string code
+        string name
+    }
+    COUNTRY {
+        int8 id PK
+        string iso_code
+        string name
+    }
+    WALLET {
+        int8 id PK
+        int8 business_fk FK
+        int8 currency_fk FK
+        int8 country_fk FK
+        string wallet_reference
+        decimal minimum_balance
+    }
+    TRANSACTION_RECORD {
+        int8 id PK
+        int8 business_fk FK
+        int8 currency_fk FK
+        int8 country_fk FK
+        int8 sender_fk FK
+        int8 beneficiary_fk FK
+        int8 voucher_fk FK
+        string transaction_reference
+        decimal amount
+        string transaction_status
+    }
+    WALLET_FUNDING {
+        int8 id PK
+        int8 wallet_fk FK
+        int8 business_fk FK
+        int8 currency_fk FK
+        decimal amount
+        string funding_reference
+    }
+    TRANSFER_PROCESSOR {
+        int8 id PK
+        int8 currency_fk FK
+        int8 country_fk FK
+        string processor_code
+    }
+    BANK {
+        int8 id PK
+        int8 country_fk FK
+        int8 currency_fk FK
+        string code
+    }
+    BUSINESS_PROFILE {
+        int8 id PK
+        int8 business_fk FK
+        string public_key
+        string secret_key
+    }
+    WHITELISTED_IP_ADDRESS {
+        int8 id PK
+        int8 business_fk FK
+        string ip_address
+    }
+    CUSTOM_FEE_CONFIG {
+        int8 id PK
+        int8 business_fk FK
+        int8 currency_fk FK
+        decimal fee
+    }
+    FEE_CONFIG {
+        int8 id PK
+        int8 currency_id FK
+        decimal fee
+    }
+    ROUTING_RULE {
+        int8 id PK
+        int8 business_fk FK
+        int8 currency_fk FK
+    }
+    RISK_ROUTER {
+        int8 id PK
+        int8 currency_fk FK
+        int8 country_fk FK
+    }
+    BLOCKED_ACCOUNT {
+        int8 id PK
+        int8 currency_fk FK
+        int8 country_fk FK
+    }
+    BUSINESS_BLACKLIST {
+        int8 id PK
+        int8 business_fk FK
+        int8 currency_fk FK
+    }
+    CUSTOM_TRANSFER_PROCESSOR {
+        int8 id PK
+        int8 business_fk FK
+        int8 processor_fk FK
+        int8 currency_fk FK
+        int8 country_fk FK
+    }
+    AUDIT_LOG {
+        int8 id PK
+        int8 business_fk FK
+        string transaction_reference
+        string payload
+    }
+    SENDER {
+        int8 id PK
+        string name
+    }
+    BENEFICIARY {
+        int8 id PK
+        string name
+    }
+    VOUCHER {
+        int8 id PK
+        string code
+    }

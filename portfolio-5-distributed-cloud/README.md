@@ -1,0 +1,3 @@
+# Portfolio 5 — Distributed and Cloud Database
+
+Run `01_cluster_diagnostics.sql`; capture database version, node/cluster topology from the CockroachDB DB Console, table ranges and tenant configuration. Document the selected deployment as **single-node**, **managed cluster**, or **multi-node test cluster**. A single-node test cannot demonstrate node-failure tolerance or multi-replica placement. Do not claim failover tests without performing them.

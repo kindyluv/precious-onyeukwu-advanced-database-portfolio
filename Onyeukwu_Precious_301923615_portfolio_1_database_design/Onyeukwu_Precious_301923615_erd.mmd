@@ -1,0 +1,381 @@
+erDiagram
+    %% Tables/columns match the uploaded schema. Links include 13 source FKs and 32 user-approved inferred FKs.
+    BUSINESS {
+        int id PK
+        varchar api_key
+        int country_fk FK
+        timestamp created_at
+        varchar name
+        varchar status
+        timestamp last_modify_date
+        int profile_fk FK
+        varchar business_code
+        varchar business_public_id
+        int default_currency_fk
+        varchar address
+        string avatar
+        text telegram_bot_link
+        bool payout_enabled
+        timestamp blocked_at
+        bool payout_blocked
+    }
+    BUSINESS_BLACKLIST {
+        int id PK
+        int business_fk FK
+        int currency_fk FK
+        varchar operator_code
+        varchar transaction_type
+        timestamp date_created
+        timestamp date_updated
+    }
+    BUSINESS_PROFILE {
+        int id PK
+        bool active
+        int business_fk FK
+        varchar collection_callback
+        varchar collection_webhook
+        timestamp created_at
+        timestamp last_modify_date
+        bool enabled_2fa
+        bool enable_3ds
+        bool enabled_customer_email_notification
+        bool enabled_customer_sms_notification
+        bool enabled_business_email_notification
+        bool enabled_bussiness_sms_notification
+        bool enable_name_enquiry_for_payout
+        varchar mpgs_mid
+        varchar payout_callback
+        varchar payout_webhook
+        varchar profile_type
+        varchar public_id
+        varchar public_key
+        varchar secret_key
+        varchar web_hook_callback
+        varchar webhook_header_hash
+        int fee_bearer_map
+        varchar transaction_pin
+        bool is_eod_lock_on
+        bool activate_floating_mid
+        bool disable_direct_charge_on_3ds
+        bool enable_virtual_card_recycling_and_auto_unload
+        int fee_bearer_fk
+        bool is_mpgs_sub_merchant
+        varchar virtual_card_webhook
+        bool disable_payaza_prefix_from_van
+        bool enable_encryption
+        varchar rsa_public_key
+        varchar transfer_processor_code
+        bool pin_set
+        int transaction_delay
+        bool fraud_check_enabled
+    }
+    CURRENCY {
+        int id PK
+        bool active
+        varchar code
+        int country_fk FK
+        varchar html_code
+        varchar iso_code
+        varchar name
+        varchar unicode
+    }
+    COUNTRY {
+        int id PK
+        bool active
+        varchar avatar
+        varchar code
+        varchar iso_code
+        varchar name
+        varchar short_name
+        int currency_fk FK
+    }
+    BANKS {
+        int id PK
+        bool active
+        varchar avatar
+        varchar code
+        varchar name
+        varchar short_name
+        varchar sort_code
+        int country_fk FK
+        int currency_fk FK
+        bool block_transaction
+        bool skip_name_enquiry
+        varchar type
+    }
+    BLOCKED_ACCOUNTS {
+        int id PK
+        varchar account_number
+        int currency_fk FK
+        int country_fk FK
+        timestamp date_added
+        string account_name
+    }
+    FEE_CONFIGS {
+        int id PK
+        varchar channel
+        decimal cost
+        varchar cost_scope
+        int currency_id FK
+        timestamp date_added
+        timestamp date_updated
+        decimal fee
+        varchar fee_scope
+        decimal lower_cap
+        varchar type
+        decimal upper_cap
+        decimal cap_amount
+        bool status
+        int currency_fk FK
+    }
+    BUSINESS_CUSTOM_FEES {
+        int id PK
+        int business_fk FK
+        varchar channel
+        int currency_fk FK
+        timestamp date_added
+        timestamp date_updated
+        decimal fee
+        decimal fee_lower_cap
+        varchar fee_scope
+        decimal fee_upper_cap
+        varchar type
+        decimal cap_amount
+        bool status
+    }
+    WALLETS {
+        int id PK
+        int business_fk FK
+        int currency_fk FK
+        timestamp date_created
+        timestamp date_modified
+        bool enable_overdraft
+        bool has_virtual_account
+        bool is_active
+        bool is_eod_lock_active
+        bool low_balance_alert
+        decimal minimum_balance
+        decimal overdraft_limit
+        varchar virtual_account_bank_code
+        varchar virtual_account_name
+        varchar virtual_account_number
+        varchar wallet_reference
+        int country_fk FK
+    }
+    WALLET_FUNDING {
+        int id PK
+        decimal amount
+        int approved_by
+        int business_fk FK
+        int currency_fk FK
+        timestamp date_created
+        text description
+        varchar funding_reference
+        int initiated_by
+        varchar transaction_type
+        int wallet_fk FK
+    }
+    SENDER {
+        int id PK
+        timestamp created_on
+        varchar email
+        varchar name
+        varchar phone_number
+        varchar country
+        varchar currency
+        text national_id
+        text metadata
+    }
+    BENEFICIARY {
+        int id PK
+        varchar account_name
+        varchar account_number
+        varchar bank_code
+        varchar bank_name
+        int business_fk FK
+        int country_fk FK
+        timestamp created_on
+        varchar beneficiary_reference
+        string national_id
+        varchar phone_number
+        string optional_field_1
+        string optional_field_2
+        text metadata
+    }
+    TRANSFER_PROCESSOR {
+        int id PK
+        int currency_fk FK
+        varchar name_enquiry_url
+        varchar processor_code
+        varchar processor_name
+        varchar processor_status
+        bool skip_name_enquiry
+        varchar transfer_code
+        varchar transfer_url
+        varchar tsc_url
+        int country_fk FK
+        varchar operator_code
+        varchar channel
+        varchar reprocess_url
+    }
+    CUSTOM_TRANSFER_PROCESSOR {
+        int id PK
+        int business_fk FK
+        int currency_fk FK
+        int processor_fk FK
+        int country_fk FK
+        bool active
+        varchar channel
+        varchar operator_code
+        timestamp date_created
+        timestamp date_updated
+    }
+    TRANSACTIONS {
+        int id PK
+        decimal amount
+        varchar batch_reference
+        int business_fk FK
+        varchar channel
+        int currency_fk FK
+        timestamp ended_at
+        timestamp started_at
+        varchar description
+        decimal fee_amount
+        varchar fee_type
+        varchar merchant_reference
+        varchar ip_address
+        varchar provider
+        varchar provider_reference
+        bool settlement_status
+        varchar status_reason
+        varchar transaction_reference
+        varchar transaction_status
+        varchar transaction_type
+        decimal value_amount
+        varchar wallet_reference
+        int beneficiary_fk FK
+        int bank_fk FK
+        varchar biller_name
+        varchar collection_channel
+        int country_fk FK
+        int customer_fk
+        bool deleted
+        varchar partner
+        decimal partner_fee_amount
+        int partner_notification_fk
+        decimal partner_transaction_amount
+        varchar partner_transaction_reference
+        varchar product
+        varchar request_ip
+        varchar source_account_name
+        varchar source_account_number
+        varchar source_bank_code
+        varchar source_bank_name
+        decimal transaction_value_amount
+        varchar transaction_webhook_url
+        varchar virtual_account_number
+        bool settlement_staus
+        varchar processor_code
+        varchar processor_reference
+        int sender_fk FK
+        bool webhook_sent
+        varchar transaction_risk_type
+        varchar fee_bearer
+        varchar operator_code
+        varchar session_id
+        int voucher_fk FK
+        bool is_checkout
+    }
+    VOUCHER {
+        int id PK
+        int business_fk FK
+        int currency_fk FK
+        int country_fk FK
+        timestamp date_created
+        varchar merchant_reference
+        varchar transaction_reference
+        varchar pin
+        varchar serial_number
+    }
+    WHITELISTED_IP_ADDRESS {
+        int id PK
+        int business_fk FK
+        timestamp created_at
+        timestamp last_modify_date
+        varchar ip_address
+        bool is_allowed
+    }
+    ROUTING_RULE {
+        int id PK
+        int business_fk FK
+        int currency_fk FK
+        bool is_active
+        varchar operator_code
+        varchar routing_type
+        varchar transaction_type
+    }
+    RISK_ROUTER {
+        int id PK
+        varchar channel
+        int currency_fk FK
+        int country_fk FK
+        timestamp date_created
+        varchar risk_type
+        varchar transaction_type
+        bool enable_routing
+    }
+    AUDIT_LOG {
+        int id PK
+        int business_fk FK
+        varchar log_type
+        varchar log_stage
+        text payload
+        varchar transaction_reference
+        varchar partner
+        timestamp date_created
+    }
+    BUSINESS_PROFILE ||--o{ BUSINESS : "profile_fk"
+    CURRENCY ||--o{ COUNTRY : "currency_fk"
+    CURRENCY ||--o{ FEE_CONFIGS : "currency_id"
+    BUSINESS_PROFILE ||--o{ BUSINESS_CUSTOM_FEES : "business_fk"
+    CURRENCY ||--o{ TRANSFER_PROCESSOR : "currency_fk"
+    COUNTRY ||--o{ TRANSFER_PROCESSOR : "country_fk"
+    TRANSFER_PROCESSOR ||--o{ CUSTOM_TRANSFER_PROCESSOR : "processor_fk"
+    COUNTRY ||--o{ CUSTOM_TRANSFER_PROCESSOR : "country_fk"
+    BUSINESS ||--o{ CUSTOM_TRANSFER_PROCESSOR : "business_fk"
+    CURRENCY ||--o{ CUSTOM_TRANSFER_PROCESSOR : "currency_fk"
+    COUNTRY ||--o{ RISK_ROUTER : "country_fk"
+    CURRENCY ||--o{ RISK_ROUTER : "currency_fk"
+    BUSINESS ||--o{ AUDIT_LOG : "business_fk"
+    COUNTRY ||--o{ BUSINESS : "country_fk"
+    BUSINESS ||--o{ BUSINESS_BLACKLIST : "business_fk"
+    CURRENCY ||--o{ BUSINESS_BLACKLIST : "currency_fk"
+    BUSINESS ||--o{ BUSINESS_PROFILE : "business_fk"
+    COUNTRY ||--o{ CURRENCY : "country_fk"
+    COUNTRY ||--o{ BANKS : "country_fk"
+    CURRENCY ||--o{ BANKS : "currency_fk"
+    CURRENCY ||--o{ BLOCKED_ACCOUNTS : "currency_fk"
+    COUNTRY ||--o{ BLOCKED_ACCOUNTS : "country_fk"
+    CURRENCY ||--o{ FEE_CONFIGS : "currency_fk"
+    CURRENCY ||--o{ BUSINESS_CUSTOM_FEES : "currency_fk"
+    BUSINESS ||--o{ WALLETS : "business_fk"
+    CURRENCY ||--o{ WALLETS : "currency_fk"
+    COUNTRY ||--o{ WALLETS : "country_fk"
+    BUSINESS ||--o{ WALLET_FUNDING : "business_fk"
+    CURRENCY ||--o{ WALLET_FUNDING : "currency_fk"
+    WALLETS ||--o{ WALLET_FUNDING : "wallet_fk"
+    BUSINESS ||--o{ BENEFICIARY : "business_fk"
+    COUNTRY ||--o{ BENEFICIARY : "country_fk"
+    BUSINESS ||--o{ TRANSACTIONS : "business_fk"
+    CURRENCY ||--o{ TRANSACTIONS : "currency_fk"
+    BENEFICIARY ||--o{ TRANSACTIONS : "beneficiary_fk"
+    BANKS ||--o{ TRANSACTIONS : "bank_fk"
+    COUNTRY ||--o{ TRANSACTIONS : "country_fk"
+    SENDER ||--o{ TRANSACTIONS : "sender_fk"
+    VOUCHER ||--o{ TRANSACTIONS : "voucher_fk"
+    BUSINESS ||--o{ VOUCHER : "business_fk"
+    CURRENCY ||--o{ VOUCHER : "currency_fk"
+    COUNTRY ||--o{ VOUCHER : "country_fk"
+    BUSINESS ||--o{ WHITELISTED_IP_ADDRESS : "business_fk"
+    BUSINESS ||--o{ ROUTING_RULE : "business_fk"
+    CURRENCY ||--o{ ROUTING_RULE : "currency_fk"

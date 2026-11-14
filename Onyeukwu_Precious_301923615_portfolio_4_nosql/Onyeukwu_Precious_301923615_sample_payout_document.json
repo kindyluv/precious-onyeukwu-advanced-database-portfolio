@@ -1,0 +1,17 @@
+{
+  "transactionReference": "TX-DEMO-1101",
+  "merchantReference": "MERCH-DEMO-1101",
+  "businessId": 401,
+  "amount": "30000.00",
+  "feeAmount": "300.00",
+  "currency": "NGN",
+  "status": "DEBITED",
+  "sender": {
+    "name": "Sample Sender",
+    "phone": "+2340000000000"
+  },
+  "beneficiary": {
+    "accountName": "Sample Beneficiary",
+    "bankCode": "999"
+  }
+}
